@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Popup Mockup — blockthesefckingsites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg:            #f5f0e8;
+      --color-surface:       #fdfaf5;
+      --color-text:          #1a1008;
+      --color-text-muted:    #7a6a55;
+      --color-accent:        #9b1c1c;
+      --color-accent-hover:  #b91c1c;
+      --color-border:        #e0d5c5;
+      --color-input-border:  #d6c9b5;
+      --color-locked:        #9b1c1c;
+      --color-success:       #276749;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-pill: 999px;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* centre the popup on screen for preview */
+    body {
+      background: #d6cfc4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+    }
+
+    .popup {
+      width: 320px;
+      background: var(--color-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .header-left { display: flex; align-items: center; gap: 7px; }
+    .header-left svg { color: var(--color-accent); flex-shrink: 0; }
+    .header-title { font-size: 15px; font-weight: 600; color: var(--color-text); }
+    .header-gear { color: var(--color-text-muted); cursor: pointer; }
+    .header-gear:hover { color: var(--color-accent); }
+
+    /* ── Profile row ── */
+    .profile-row {
+      margin: 10px 12px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+    }
+    .profile-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--color-accent);
+      margin-bottom: 4px;
+    }
+    .profile-select {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer;
+    }
+    .profile-name { font-size: 14px; font-weight: 500; color: var(--color-text); }
+    .profile-chevron { color: var(--color-text-muted); font-size: 12px; }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; margin: 0 12px 10px;
+    }
+    .stat-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+    }
+    .stat-number { font-size: 22px; font-weight: 700; color: var(--color-accent); }
+    .stat-label  { font-size: 11px; color: var(--color-text-muted); margin-top: 1px; }
+    .stat-schedule { display: flex; flex-direction: column; gap: 2px; }
+    .stat-schedule-title {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 500; color: var(--color-text);
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--color-accent); flex-shrink: 0;
+    }
+    .stat-schedule-sub { font-size: 11px; color: var(--color-text-muted); }
+
+    /* ── Sites list ── */
+    .sites-header {
+      padding: 0 12px 5px;
+      font-size: 10px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--color-accent);
+    }
+    .sites-list {
+      margin: 0 12px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .site-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .site-row:last-child { border-bottom: none; }
+    .site-left { display: flex; align-items: center; gap: 7px; }
+    .site-lock { color: var(--color-accent); font-size: 13px; }
+    .site-domain { font-size: 13px; font-weight: 500; color: var(--color-text); }
+    .site-status { font-size: 11px; color: var(--color-text-muted); }
+    .site-status.can-remove { color: var(--color-success); font-weight: 500; }
+
+    /* ── Footer button ── */
+    .footer {
+      padding: 10px 12px 12px;
+    }
+    .btn-open-settings {
+      display: block; width: 100%;
+      background: var(--color-accent); color: #fff;
+      border: none; border-radius: var(--radius-md);
+      padding: 10px; font-size: 13px; font-weight: 600;
+      font-family: var(--font-sans); cursor: pointer;
+      text-align: center; text-decoration: none;
+      transition: background .15s;
+    }
+    .btn-open-settings:hover { background: var(--color-accent-hover); }
+  </style>
+</head>
+<body>
+  <div class="popup">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/>
+        </svg>
+        <span class="header-title">blockthesefckingsites</span>
+      </div>
+      <svg class="header-gear" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+    </div>
+
+    <!-- Profile row -->
+    <div class="profile-row">
+      <div class="profile-label">Profile</div>
+      <div class="profile-select">
+        <span class="profile-name">Work Mode ✓</span>
+        <span class="profile-chevron">▾</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number">12</div>
+        <div class="stat-label">Sites Blocked</div>
+      </div>
+      <div class="stat-card stat-schedule">
+        <div class="stat-schedule-title">
+          <span class="dot"></span>Schedule On
+        </div>
+        <div class="stat-schedule-sub">Mon–Fri 9–6</div>
+      </div>
+    </div>
+
+    <!-- Blocked sites -->
+    <div class="sites-header">Blocked Sites</div>
+    <div class="sites-list">
+      <div class="site-row">
+        <div class="site-left">
+          <span class="site-lock">🔒</span>
+          <span class="site-domain">reddit.com</span>
+        </div>
+        <span class="site-status">Blocked</span>
+      </div>
+      <div class="site-row">
+        <div class="site-left">
+          <span class="site-lock">🔒</span>
+          <span class="site-domain">twitter.com</span>
+        </div>
+        <span class="site-status">Blocked</span>
+      </div>
+      <div class="site-row">
+        <div class="site-left">
+          <span class="site-lock">🔒</span>
+          <span class="site-domain">youtube.com</span>
+        </div>
+        <span class="site-status can-remove">Can remove</span>
+      </div>
+      <div class="site-row">
+        <div class="site-left">
+          <span class="site-lock">🔒</span>
+          <span class="site-domain">instagram.com</span>
+        </div>
+        <span class="site-status">Blocked</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <a class="btn-open-settings" href="#">Open Settings →</a>
+    </div>
+  </div>
+</body>
+</html>

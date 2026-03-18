@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Blocked — blockthesefckingsites</title>
+  <link rel="stylesheet" href="blocked.css" />
+</head>
+<body>
+
+  <div class="card">
+    <!-- Top -->
+    <div class="card-top">
+      <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.5" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/>
+        <line x1="9" y1="9" x2="15" y2="15" stroke-width="2"/>
+        <line x1="15" y1="9" x2="9" y2="15" stroke-width="2"/>
+      </svg>
+      <div class="blocked-domain" id="blocked-domain">Loading…</div>
+      <div class="blocked-sub" id="blocked-sub"></div>
+    </div>
+
+    <div class="divider" role="separator"></div>
+
+    <!-- Challenge -->
+    <div class="challenge-label" id="label-challenge">Type to Unlock</div>
+    <div class="challenge-instruction">
+      Type the passage below exactly. No copy-paste. Mistakes must be corrected.
+    </div>
+
+    <div class="typing-area" id="typing-area"
+         role="textbox" aria-multiline="false"
+         aria-label="Typing challenge"
+         aria-describedby="label-challenge">
+      <input id="hidden-input" type="text"
+             autocomplete="off" autocorrect="off"
+             autocapitalize="off" spellcheck="false"
+             tabindex="-1"
+             aria-label="Typing challenge input" />
+      <div id="chars-display"></div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-row" role="progressbar"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <span class="progress-pct" aria-live="polite" id="progress-pct">0%</span>
+    </div>
+
+    <!-- Error / Status -->
+    <p class="removal-error hidden" id="removal-error" role="alert"></p>
+
+    <!-- Action -->
+    <button class="btn-remove" id="btn-remove" disabled>Unlock for 1 hour</button>
+    <div class="btn-note">
+      Site stays in your blocklist. Unlock expires after 1 hour.
+    </div>
+  </div>
+
+  <div class="page-footer" id="page-footer">blockthesefckingsites</div>
+
+  <script src="blocked.js" type="module"></script>
+</body>
+</html>

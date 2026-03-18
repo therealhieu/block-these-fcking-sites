@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Block Page Mockup — blockthesefckingsites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg:            #f5f0e8;
+      --color-surface:       #fdfaf5;
+      --color-text:          #1a1008;
+      --color-text-muted:    #7a6a55;
+      --color-accent:        #9b1c1c;
+      --color-accent-hover:  #b91c1c;
+      --color-accent-subtle: #fdf2f2;
+      --color-border:        #e0d5c5;
+      --color-input-border:  #d6c9b5;
+      --color-success:       #276749;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--color-bg);
+      font-family: var(--font-sans);
+      color: var(--color-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 24px rgba(26,16,8,.08);
+      width: 100%; max-width: 540px;
+      padding: 36px 32px 28px;
+    }
+
+    /* ── Header ── */
+    .card-top {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; margin-bottom: 24px;
+    }
+    .shield-icon {
+      width: 52px; height: 52px; margin-bottom: 16px;
+      color: var(--color-accent);
+    }
+    .blocked-domain {
+      font-size: 24px; font-weight: 700; color: var(--color-text);
+      margin-bottom: 6px;
+    }
+    .blocked-sub {
+      font-size: 13px; color: var(--color-text-muted);
+    }
+
+    .divider {
+      height: 1px; background: var(--color-border); margin: 0 -32px 24px;
+    }
+
+    /* ── Challenge ── */
+    .challenge-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--color-accent);
+      margin-bottom: 4px;
+    }
+    .challenge-instruction {
+      font-size: 12px; color: var(--color-text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* Typing area */
+    .typing-area {
+      position: relative;
+      border: 1px solid var(--color-input-border);
+      border-radius: var(--radius-sm);
+      background: var(--color-surface);
+      padding: 14px 16px;
+      min-height: 100px;
+      margin-bottom: 14px;
+      cursor: text;
+      line-height: 1.65;
+      font-size: 16px;
+    }
+    .typing-area:focus-within { border-color: var(--color-accent); }
+    /* Suppress text selection inside the typing area */
+    .typing-area { user-select: none; -webkit-user-select: none; }
+
+    /* The hidden real input */
+    #hidden-input {
+      position: absolute; opacity: 0; pointer-events: none;
+      width: 1px; height: 1px; top: 0; left: 0;
+    }
+
+    /* Characters — rendered via CSS ::before, NOT as textContent.
+       This means querySelectorAll('.char').map(s=>s.textContent).join('') → empty string.
+       The actual characters only exist in the JS closure. */
+    .char { transition: color .05s; display: inline; }
+    .char::before { content: attr(data-c); }
+    .char.correct::before  { color: var(--color-success); }
+    .char.wrong            { background: var(--color-accent-subtle); border-radius: 2px; }
+    .char.wrong::before    { color: var(--color-accent); }
+    .char.pending::before  { color: var(--color-text-muted); }
+    .char.cursor {
+      border-left: 2px solid var(--color-accent);
+      margin-left: -1px;
+      animation: blink .8s step-start infinite;
+    }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    /* ── Progress ── */
+    .progress-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    }
+    .progress-track {
+      flex: 1; height: 5px; background: var(--color-border);
+      border-radius: var(--radius-pill); overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--color-accent);
+      border-radius: var(--radius-pill);
+      transition: width .15s;
+    }
+    .progress-pct { font-size: 11px; color: var(--color-text-muted); min-width: 30px; text-align: right; }
+
+    /* ── Button ── */
+    .btn-remove {
+      width: 100%; padding: 11px;
+      background: var(--color-accent); color: #fff;
+      border: none; border-radius: var(--radius-sm);
+      font-size: 14px; font-weight: 600;
+      font-family: var(--font-sans); cursor: pointer;
+      transition: background .15s, opacity .15s;
+      margin-bottom: 10px;
+    }
+    .btn-remove:disabled {
+      opacity: .45; cursor: not-allowed;
+    }
+    .btn-remove:not(:disabled):hover { background: var(--color-accent-hover); }
+
+    .btn-note {
+      text-align: center; font-size: 11px;
+      color: var(--color-text-muted); font-style: italic;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      margin-top: 32px;
+      font-size: 12px; color: var(--color-text-muted); text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- Top -->
+    <div class="card-top">
+      <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/>
+        <line x1="9" y1="9" x2="15" y2="15" stroke-width="2"/>
+        <line x1="15" y1="9" x2="9" y2="15" stroke-width="2"/>
+      </svg>
+      <div class="blocked-domain">reddit.com is blocked</div>
+      <div class="blocked-sub">Part of your Work Mode blocklist</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Challenge -->
+    <div class="challenge-label">Type to Remove</div>
+    <div class="challenge-instruction">Type the passage below. Do not stop — mistakes must be corrected.</div>
+
+    <div class="typing-area" id="typing-area"
+         role="textbox" aria-multiline="false" aria-label="Typing challenge"
+         onclick="document.getElementById('hidden-input').focus()">
+      <input id="hidden-input" type="text" autocomplete="off" autocorrect="off"
+             autocapitalize="off" spellcheck="false"
+             aria-hidden="true" tabindex="-1" />
+      <div id="chars-display"></div>
+    </div>
+
+    <div class="progress-row">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>
+
+    <button class="btn-remove" id="btn-remove" disabled>Remove Site</button>
+    <div class="btn-note">Removal also requires being outside your scheduled blocking window.</div>
+  </div>
+
+  <div class="page-footer">blockthesefckingsites · Work Mode</div>
+
+  <script>
+    const CHALLENGE = "I acknowledge that this moment of weakness will cost me more time than I think. Discipline compounds. I close this tab now and return to what matters.";
+
+    const display   = document.getElementById('chars-display');
+    const input     = document.getElementById('hidden-input');
+    const fill      = document.getElementById('progress-fill');
+    const pct       = document.getElementById('progress-pct');
+    const btn       = document.getElementById('btn-remove');
+    const typingArea = document.getElementById('typing-area');
+
+    // Build all character spans in one DocumentFragment — single DOM insertion.
+    // Text lives in data-c, not textContent:
+    // querySelectorAll('.char').map(s => s.textContent).join('') → ''
+    const fragment = document.createDocumentFragment();
+    const spans = [...CHALLENGE].map((ch) => {
+      const s = document.createElement('span');
+      s.className = 'char pending';
+      s.dataset.c = ch; // rendered by CSS ::before { content: attr(data-c) }
+      fragment.appendChild(s);
+      return s;
+    });
+    display.appendChild(fragment); // single reflow
+
+    // Scope copy/cut interception to the typing area only — not the whole page.
+    typingArea.addEventListener('copy', e => { e.clipboardData.setData('text/plain', ''); e.preventDefault(); });
+    typingArea.addEventListener('cut',  e => { e.clipboardData.setData('text/plain', ''); e.preventDefault(); });
+
+    let lastProgress = -1;
+
+    function update() {
+      const typed = input.value;
+      let correctCount = 0;
+      let allCorrect = true;
+
+      spans.forEach((s, i) => {
+        let next;
+        if (i < typed.length) {
+          if (typed[i] === CHALLENGE[i]) {
+            next = 'char correct';
+            correctCount++;
+          } else {
+            next = 'char wrong';
+            allCorrect = false;
+          }
+        } else if (i === typed.length) {
+          next = 'char cursor pending';
+          allCorrect = false;
+        } else {
+          next = 'char pending';
+          allCorrect = false;
+        }
+        // Skip DOM write if class unchanged — avoids unnecessary reflow
+        if (s.className !== next) s.className = next;
+      });
+
+      const progress = Math.round((correctCount / CHALLENGE.length) * 100);
+      // Only write to DOM if value changed
+      if (progress !== lastProgress) {
+        fill.style.width = progress + '%';
+        pct.textContent  = progress + '%';
+        lastProgress = progress;
+      }
+
+      const complete = allCorrect && typed.length >= CHALLENGE.length;
+      btn.disabled = !complete;
+    }
+
+    input.addEventListener('input', update);
+    update(); // initialise cursor on first char
+    input.focus();
+
+    btn.addEventListener('click', () => {
+      if (!btn.disabled) alert('✓ Site removed from blocklist (mockup).');
+    });
+  </script>
+</body>
+</html>

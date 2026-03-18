@@ -1,0 +1,21 @@
+# Credentials — never commit
+secrets/
+.env
+
+# Build output
+extension.zip
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (for local tooling like get-refresh-token.mjs)
+node_modules/
+package-lock.json
+package.json

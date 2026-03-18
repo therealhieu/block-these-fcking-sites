@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-bg:            #f5f0e8;
+  --color-surface:       #fdfaf5;
+  --color-text:          #1a1008;
+  --color-text-muted:    #7a6a55;
+  --color-accent:        #9b1c1c;
+  --color-accent-hover:  #b91c1c;
+  --color-border:        #e0d5c5;
+  --color-input-border:  #d6c9b5;
+  --color-locked:        #9b1c1c;
+  --color-success:       #276749;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-pill: 999px;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  width: 320px;
+  min-height: 200px;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+.header-left { display: flex; align-items: center; gap: 7px; color: var(--color-accent); }
+.header-title { font-size: 15px; font-weight: 600; color: var(--color-text); }
+.header-gear {
+  background: none; border: none; cursor: pointer; padding: 2px;
+  color: var(--color-text-muted); display: flex;
+}
+.header-gear:hover { color: var(--color-accent); }
+
+/* ── States ── */
+.hidden { display: none !important; }
+.loading { padding: 20px 14px; font-size: 13px; color: var(--color-text-muted); }
+
+.content { flex: 1; }
+
+/* ── Profile ── */
+.profile-row {
+  margin: 10px 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+}
+.profile-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--color-accent); margin-bottom: 4px;
+}
+#profile-select {
+  width: 100%; border: none; background: transparent;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 500;
+  color: var(--color-text); cursor: pointer; outline: none;
+}
+
+/* ── Stats ── */
+.stats-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin: 0 12px 10px;
+}
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+}
+.stat-number { font-size: 22px; font-weight: 700; color: var(--color-accent); }
+.stat-label  { font-size: 11px; color: var(--color-text-muted); margin-top: 1px; }
+.stat-schedule { display: flex; flex-direction: column; gap: 2px; }
+.stat-schedule-title { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 500; }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot.active   { background: var(--color-locked); }
+.dot.inactive { background: var(--color-success); }
+.stat-schedule-sub { font-size: 11px; color: var(--color-text-muted); }
+
+/* ── Sites list ── */
+.sites-header {
+  padding: 0 12px 5px;
+  font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--color-accent);
+}
+.sites-list {
+  margin: 0 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  max-height: 160px;
+  overflow-y: auto;
+}
+.sites-empty { padding: 12px; font-size: 12px; color: var(--color-text-muted); text-align: center; }
+.site-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.site-row:last-child { border-bottom: none; }
+.site-left { display: flex; align-items: center; gap: 7px; }
+.site-lock { font-size: 13px; }
+.site-domain { font-size: 13px; font-weight: 500; }
+
+/* ── Footer ── */
+.footer { padding: 10px 12px 12px; }
+.btn-open-settings {
+  display: block; width: 100%;
+  background: var(--color-accent); color: #fff;
+  border: none; border-radius: var(--radius-md);
+  padding: 10px; font-size: 13px; font-weight: 600;
+  font-family: var(--font-sans); cursor: pointer;
+  transition: background-color .15s;
+}
+.btn-open-settings:hover { background: var(--color-accent-hover); }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>blockthesefckingsites</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/>
+        </svg>
+        <span class="header-title">blockthesefckingsites</span>
+      </div>
+      <button id="btn-settings" class="header-gear" title="Open Settings" aria-label="Open Settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading" class="loading">Loading…</div>
+
+    <!-- Content (hidden until loaded) -->
+    <div id="content" class="content hidden">
+      <!-- Profile -->
+      <div class="profile-row">
+        <div class="profile-label">Profile</div>
+        <div class="profile-select">
+          <select id="profile-select" aria-label="Active profile"></select>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-number" id="stat-sites">0</div>
+          <div class="stat-label">Sites Blocked</div>
+        </div>
+        <div class="stat-card stat-schedule" id="stat-schedule-card">
+          <div class="stat-schedule-title">
+            <span class="dot" id="schedule-dot"></span>
+            <span id="schedule-status">—</span>
+          </div>
+          <div class="stat-schedule-sub" id="schedule-sub"></div>
+        </div>
+      </div>
+
+      <!-- Blocked sites list -->
+      <div class="sites-header">Blocked Sites</div>
+      <div class="sites-list" id="sites-list">
+        <div class="sites-empty" id="sites-empty">No sites blocked yet</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <button id="btn-open-settings" class="btn-open-settings">Open Settings →</button>
+    </div>
+  </div>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

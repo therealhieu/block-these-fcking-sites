@@ -1,0 +1,45 @@
+name: Publish to Chrome Web Store
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'   # SemVer: v1.2.3
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate tag matches manifest.json version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"           # strip leading "v": v1.2.3 → 1.2.3
+          MANIFEST_VERSION=$(jq -r '.version' manifest.json)
+          echo "Tag version:      $TAG_VERSION"
+          echo "Manifest version: $MANIFEST_VERSION"
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "::error::Version mismatch — tag is v${TAG_VERSION} but manifest.json says ${MANIFEST_VERSION}. Update manifest.json before tagging."
+            exit 1
+          fi
+
+      - name: Build zip (exclude dev-only files)
+        run: |
+          zip -r extension.zip . \
+            --exclude "*.git*" \
+            --exclude "documents/*" \
+            --exclude ".github/*" \
+            --exclude "*.DS_Store" \
+            --exclude "*.md" \
+            --exclude "extension.zip"
+
+      - name: Upload to Chrome Web Store
+        uses: nicedoc/chrome-webstore-upload-cli@v2
+        with:
+          extension-id: ${{ secrets.CWS_EXTENSION_ID }}
+          client-id:    ${{ secrets.CWS_CLIENT_ID }}
+          client-secret: ${{ secrets.CWS_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CWS_REFRESH_TOKEN }}
+          zip-path: extension.zip
+          auto-publish: true   # set to false to upload but not publish (stays in review)
