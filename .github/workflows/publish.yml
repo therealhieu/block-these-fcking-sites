@@ -32,14 +32,16 @@ jobs:
             --exclude ".github/*" \
             --exclude "*.DS_Store" \
             --exclude "*.md" \
+            --exclude ".env" \
+            --exclude "secrets/*" \
             --exclude "extension.zip"
 
       - name: Upload to Chrome Web Store
-        uses: nicedoc/chrome-webstore-upload-cli@v2
+        uses: mnao305/chrome-extension-upload@v5.0.0
         with:
+          file-path: extension.zip
           extension-id: ${{ secrets.CWS_EXTENSION_ID }}
           client-id:    ${{ secrets.CWS_CLIENT_ID }}
           client-secret: ${{ secrets.CWS_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CWS_REFRESH_TOKEN }}
-          zip-path: extension.zip
-          auto-publish: true   # set to false to upload but not publish (stays in review)
+          publish: true   # set to false to upload without submitting for review
