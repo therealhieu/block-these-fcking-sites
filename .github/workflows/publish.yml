@@ -44,4 +44,4 @@ jobs:
           client-id:    ${{ secrets.CWS_CLIENT_ID }}
           client-secret: ${{ secrets.CWS_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CWS_REFRESH_TOKEN }}
-          publish: true   # set to false to upload without submitting for review
+          publish: false   # upload only; submit for review manually after completing store listing
